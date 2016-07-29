@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+    <style>
+        video {
+            transform: scaleX(-1);
+            -o-transform: scaleX(-1);
+            -ms-transform: scaleX(-1);
+            -moz-transform: scaleX(-1);
+            -webkit-transform: scaleX(-1);
+        }
+        
+        canvas {
+            transform: scaleX(-1);
+            -o-transform: scaleX(-1);
+            -ms-transform: scaleX(-1);
+            -moz-transform: scaleX(-1);
+            -webkit-transform: scaleX(-1);
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <video autoplay width="420" height="320"></video>
+    <canvas width="420" height="320"></canvas>
+
+    <button id="shot">Shot</button>
+
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/scripts/socket.io-stream.js"></script>
+
+    <script>
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+        navigator.getUserMedia({
+            audio: false,
+            video: {
+                width: 420,
+                height: 320
+            }
+        }, onSuccessMedia, onFailedMedia);
+
+
+        var video = document.querySelector('video');
+        var canvas = document.querySelector('canvas');
+        var ctx = canvas.getContext('2d');
+
+        canvas.width = 420;
+        canvas.height = 320;
+
+        function onSuccessMedia(stream) {
+            video.src = window.URL.createObjectURL(stream);
+
+            var iostream = ss.createStream();
+
+            // upload a file to the server. 
+            ss(socket).emit('video', iostream, {});
+            ss.createBlobReadStream(stream).pipe(iostream);
+        }
+
+        function onFailedMedia() {
+
+        }
+
+        function snapShot() {
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            return canvas.toDataURL('image/webp');
+        }
+        setInterval(function() {
+            snapShot()
+        }, 1000 / 30)
+        document.querySelector('#shot').addEventListener('click', snapShot)
+    </script>
+
+    <script>
+        var socket = io();
+        socket.on('stream', function(image) {
+            var img = document.getElementById('')
+            img.src = image;
+        })
+    </script>
+</body>
+
+</html>
