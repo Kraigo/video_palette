@@ -5,32 +5,16 @@
     <meta charset="UTF-8">
     <title>Document</title>
 
-    <style>
-        video,
-        canvas,
-        img {
-            transform: scaleX(-1);
-            -o-transform: scaleX(-1);
-            -ms-transform: scaleX(-1);
-            -moz-transform: scaleX(-1);
-            -webkit-transform: scaleX(-1);
-        }
-        
-        #your-pic {
-            width: 180px;
-            height: auto;
-            position: fixed;
-            right: 10px;
-            bottom: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="styles/main.css">
 
 </head>
 
 <body>
 
-    <video autoplay width="420" height="320" id="your-pic"></video>
-    <canvas width="420" height="320" id="stream"></canvas>
+    <video autoplay width="320" height="320" id="your-pic"></video>
+    <canvas width="320" height="320" id="stream" style="display: none;"></canvas>
+
+    <div class="container" id="userstream-container"></div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="/scripts/client-app.js"></script>
