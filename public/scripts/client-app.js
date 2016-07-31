@@ -4,8 +4,8 @@ if (!navigator.getUserMedia) {
 }
 
 var videoSize = {
-    width: 160,
-    height: 320
+    width: 320,
+    height: 160
 };
 
 var socket = io();
@@ -15,9 +15,6 @@ var ctx = canvas.getContext('2d');
 
 var streams = [];
 var userstreamContainer = document.getElementById('userstream-container');
-
-canvas.width = videoSize.width;
-canvas.height = videoSize.height;
 
 navigator.getUserMedia({
     audio: false,
@@ -36,8 +33,9 @@ function onFailedMedia() {
 }
 
 function snapShot() {
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+    canvas.width = video.videoWidth / (video.videoHeight / videoSize.height);
+    canvas.height = video.videoHeight / (video.videoWidth / videoSize.width);
+    console.log(canvas.width, canvas.height);
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
     return canvas.toDataURL('image/webp');
 }
