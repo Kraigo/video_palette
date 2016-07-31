@@ -12,6 +12,7 @@ var socket = io();
 var video = document.querySelector('video');
 var canvas = document.createElement('canvas');
 var ctx = canvas.getContext('2d');
+var timer;
 
 var streams = [];
 var userstreamContainer = document.getElementById('userstream-container');
@@ -26,6 +27,10 @@ navigator.getUserMedia({
 
 function onSuccessMedia(stream) {
     video.src = window.URL.createObjectURL(stream);
+
+    timer = setInterval(function() {
+        socket.emit('stream', snapShot());
+    }, 1000 / 10);
 }
 
 function onFailedMedia() {
@@ -95,19 +100,14 @@ function resize(w, h) {
     };
 }
 
-setInterval(function() {
-    socket.emit('stream', snapShot());
-
-}, 1000 / 10);
-
 socket.on('stream', function(stream) {
     updateStream(stream.id, stream.image);
 });
 
-socket.on('join', function(id) {
-    console.log('Join %s', id);
-    addStream(id);
-});
+// socket.on('join', function(id) {
+//     console.log('Join %s', id);
+//     addStream(id);
+// });
 
 socket.on('leave', function(id) {
     console.log('Leave %s', id);
