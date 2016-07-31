@@ -14,10 +14,8 @@ body {
 }
 
 .userstream-pic {
-    /*width: 100px;
-    height: 100px;*/
-    /*background-color: red;
-    border: 3px solid blue;*/
+    flex: 1;
+    flex-basis: 200px;
 }
 
 .userstream-pic img {
@@ -42,4 +40,5 @@ img {
     position: fixed;
     right: 10px;
     bottom: 10px;
+    z-index: 1001;
 }
