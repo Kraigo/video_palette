@@ -2,13 +2,11 @@ navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia 
 if (!navigator.getUserMedia) {
     alert('You browser no support WebCamera api');
 }
-navigator.getUserMedia({
-    audio: false,
-    video: {
-        width: { max: 320 },
-        height: { max: 320 }
-    }
-}, onSuccessMedia, onFailedMedia);
+
+var videoSize = {
+    width: 160,
+    height: 320
+};
 
 var socket = io();
 var video = document.querySelector('video');
@@ -17,6 +15,17 @@ var ctx = canvas.getContext('2d');
 
 var streams = [];
 var userstreamContainer = document.getElementById('userstream-container');
+
+canvas.width = videoSize.width;
+canvas.height = videoSize.height;
+
+navigator.getUserMedia({
+    audio: false,
+    video: {
+        width: { max: videoSize.width },
+        height: { max: videoSize.height }
+    }
+}, onSuccessMedia, onFailedMedia);
 
 function onSuccessMedia(stream) {
     video.src = window.URL.createObjectURL(stream);
