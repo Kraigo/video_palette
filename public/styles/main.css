@@ -42,3 +42,9 @@ img {
     bottom: 10px;
     z-index: 1001;
 }
+
+@media only screen and (max-width: 768px) {
+    #your-pic {
+     width: 30%;
+    }       
+}
