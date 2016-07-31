@@ -4,7 +4,7 @@ if (!navigator.getUserMedia) {
 }
 
 var videoSize = {
-    width: 320,
+    width: 160,
     height: 160
 };
 
@@ -33,9 +33,10 @@ function onFailedMedia() {
 }
 
 function snapShot() {
-    canvas.width = video.videoWidth / (video.videoHeight / videoSize.height);
-    canvas.height = video.videoHeight / (video.videoWidth / videoSize.width);
-    console.log(canvas.width, canvas.height);
+    var resized = resize(video.videoWidth, video.videoHeight);
+
+    canvas.width = resized.width;
+    canvas.height = resized.height;
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
     return canvas.toDataURL('image/webp');
 }
@@ -70,12 +71,29 @@ function removeStream(id) {
     for (var i = 0; i < streams.length; i++) {
         if (streams[i].id === id) {
             userstreamContainer.removeChild(streams[i].image.parentNode);
-            streams[i].splice(i, 1);
+            streams.splice(i, 1);
             return;
         }
     }
 }
 
+
+function resize(w, h) {
+    var maxHeight = videoSize.width;
+    var maxWidth = videoSize.height;
+    var ratio = 0;
+
+    if (h > w) {
+        ratio = maxHeight / h;
+    } else {
+        ratio = maxWidth / w;
+    }
+
+    return {
+        width: w * ratio,
+        height: h * ratio
+    };
+}
 
 setInterval(function() {
     socket.emit('stream', snapShot());

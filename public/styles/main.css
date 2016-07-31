@@ -15,7 +15,7 @@ body {
 
 .userstream-pic {
     flex: 1;
-    flex-basis: 200px;
+    flex-basis: 160px;
 }
 
 .userstream-pic img {
