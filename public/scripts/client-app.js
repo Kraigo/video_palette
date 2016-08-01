@@ -67,13 +67,15 @@ function addStream(id) {
 }
 
 function updateStream(id, image) {
+    if (image.search('data:image/') < 0) return;
+
     for (var i = 0, stream; i < streams.length; i++) {
         stream = streams[i];
         if (stream.id === id) {
             if (stream.loaded) {
                 stream.loaded = false;
                 stream.image.src = image;
-            }
+            }            
             return;
         }
     }
