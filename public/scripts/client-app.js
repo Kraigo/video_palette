@@ -43,7 +43,7 @@ function snapShot() {
     canvas.width = resized.width;
     canvas.height = resized.height;
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    return canvas.toDataURL('image/webp');
+    return canvas.toDataURL('image/jpeg', 0.7);
 }
 
 function addStream(id) {
