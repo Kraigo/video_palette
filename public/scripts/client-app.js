@@ -47,12 +47,19 @@ function snapShot() {
 }
 
 function addStream(id) {
+    var image = document.createElement("img");
     var streamItem = {
         id: id,
-        image: document.createElement("img")
+        image: image,
+        loaded: true
     };
     var userstreamPic = document.createElement('div');
-    userstreamPic.appendChild(streamItem.image);
+    
+    image.onload = function() {
+        streamItem.loaded = true;
+    }
+    
+    userstreamPic.appendChild(image);
     userstreamPic.className = 'userstream-pic';
 
     userstreamContainer.appendChild(userstreamPic);
@@ -60,9 +67,11 @@ function addStream(id) {
 }
 
 function updateStream(id, image) {
-    for (var i = 0; i < streams.length; i++) {
-        if (streams[i].id === id) {
-            streams[i].image.src = image;
+    for (var i = 0, steam; i < streams.length; i++) {
+        steam = streams[i];
+        if (steam.id === id && steam.loaded) {
+            steam.loaded = false;
+            steam.image.src = image;
             return;
         }
     }
@@ -104,10 +113,10 @@ socket.on('stream', function(stream) {
     updateStream(stream.id, stream.image);
 });
 
-// socket.on('join', function(id) {
-//     console.log('Join %s', id);
-//     addStream(id);
-// });
+socket.on('join', function(id) {
+    console.log('Join %s', id);
+    addStream(id);
+});
 
 socket.on('leave', function(id) {
     console.log('Leave %s', id);
