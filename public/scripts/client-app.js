@@ -47,31 +47,33 @@ function snapShot() {
 }
 
 function addStream(id) {
+    var container = document.createElement('div');
     var image = document.createElement("img");
     var streamItem = {
         id: id,
         image: image,
         loaded: true
     };
-    var userstreamPic = document.createElement('div');
-    
+
     image.onload = function() {
         streamItem.loaded = true;
     }
     
-    userstreamPic.appendChild(image);
-    userstreamPic.className = 'userstream-pic';
+    container.appendChild(image);
+    container.className = 'userstream-pic';
 
-    userstreamContainer.appendChild(userstreamPic);
+    userstreamContainer.appendChild(container);
     streams.push(streamItem);
 }
 
 function updateStream(id, image) {
-    for (var i = 0, steam; i < streams.length; i++) {
-        steam = streams[i];
-        if (steam.id === id && steam.loaded) {
-            steam.loaded = false;
-            steam.image.src = image;
+    for (var i = 0, stream; i < streams.length; i++) {
+        stream = streams[i];
+        if (stream.id === id) {
+            if (stream.loaded) {
+                stream.loaded = false;
+                stream.image.src = image;
+            }
             return;
         }
     }
