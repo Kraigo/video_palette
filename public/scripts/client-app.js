@@ -58,14 +58,16 @@ function addStream(id) {
     var streamItem = {
         id: id,
         image: image,
+        target: container,
         loaded: true
     };
 
     image.onload = function() {
         streamItem.loaded = true;
+        streamItem.target.style.backgroundImage = 'url(' + this.src + ')';
     }
     
-    container.appendChild(image);
+    // container.appendChild(image);
     container.className = 'userstream-pic';
 
     userstreamContainer.appendChild(container);
