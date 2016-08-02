@@ -96,7 +96,7 @@ function updateStream(id, image) {
 function removeStream(id) {
     for (var i = 0; i < streams.length; i++) {
         if (streams[i].id === id) {
-            userstreamContainer.removeChild(streams[i].image.parentNode);
+            userstreamContainer.removeChild(streams[i].target);
             streams.splice(i, 1);
             return;
         }
