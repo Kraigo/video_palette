@@ -1,8 +1,3 @@
-navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-if (!navigator.getUserMedia) {
-    alert('You browser no support WebCamera api');
-}
-
 var videoSize = {
     width: 160,
     height: 160
@@ -17,13 +12,24 @@ var timer;
 var streams = [];
 var userstreamContainer = document.getElementById('userstream-container');
 
-navigator.getUserMedia({
-    audio: false,
-    video: {
-        width: { max: videoSize.width },
-        height: { max: videoSize.height }
+function getCamera() {
+
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+    if (!navigator.getUserMedia) {
+        alert('Your browser no support Web Camera');
+        return;
     }
-}, onSuccessMedia, onFailedMedia);
+    navigator.getUserMedia({
+        audio: false,
+        video: {
+            width: { max: videoSize.width },
+            height: { max: videoSize.height }
+        }
+    }, onSuccessMedia, onFailedMedia);
+}
+getCamera();
+
 
 function onSuccessMedia(stream) {
     video.src = window.URL.createObjectURL(stream);
@@ -75,7 +81,7 @@ function updateStream(id, image) {
             if (stream.loaded) {
                 stream.loaded = false;
                 stream.image.src = image;
-            }            
+            }
             return;
         }
     }
