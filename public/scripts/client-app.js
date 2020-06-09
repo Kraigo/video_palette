@@ -32,7 +32,11 @@ getCamera();
 
 
 function onSuccessMedia(stream) {
-    video.src = window.URL.createObjectURL(stream);
+    try {
+      video.srcObject = stream;
+    } catch (error) {
+      video.src = window.URL.createObjectURL(stream);
+    }
 
     timer = setInterval(function() {
         socket.emit('stream', snapShot());
